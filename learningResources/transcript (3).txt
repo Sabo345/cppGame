@@ -1,0 +1,36 @@
+
+
+Ok now that you understand how CMake works, let's write the CMake for this project. And for every lesson in this course you can download the finished source code. Speaking of which, I expect you to write the code yourself and download my code only if you get stuck, but for this lesson in particular I don't mind you just downloading the finished CMake and look over it while I explain how it works. With CMake I also don't know everything by memory I just start from an older project and copy the CMake from there. And that's what I also recommend you to do, because it's super easy to get one small detail wrong and it will cause you a problem that you won't even know about. And you will see some examples soon.
+
+So the project structure is super simple. We have a resources folder that is empty for now but in the future it will hold assets for the game like textures and stuff. Than we have an src folder that will hold cpp files and header files. For now it just holds a hello world program. Than I have a gitignore file that I will talk more about in the next video. Now let's look inside the CMake.
+
+
+First line the CMake version, if CMake ever complains that the CMake version is too old or something weird like that just switch to the newer version it wants, this really does not matter for our simple CMake script. Than we set the C++ 17 standard.
+
+Next we get to this thing. This is a configuration variable for the CMake that tells the script if we are inside a production build or a development build. Remember, a development build is for us and may have extra checks and more debug messages, while a production build is sent to the player and may have less checks and less debug info. And you would basically change this option from here from OFF to ON before sharing the game with others.
+
+Now if you forget to add this CACHE FORCE thing here CMake will basically save the variable in the build files and it won't update it if you change it from the code and you won't even know you have this problem. Horrible, so that's why when I start a new project I just copy paste the CMake from an older project, it's super easy to have some small details wrong. 
+
+Speaking of that, next we link the runtime library statically if compiling with the MSVC compiler, MSVC is the visual studio compiler. Same problem here, some weird lines of code that if you don't have exactly right it won't work correctly and you won't even know. This lines here took me like years to find out correctly because I had it wrong initially and I just didn't know it. Now if you don't use MSVC add this line to link to the runtime statically.
+
+
+Now, I add some flags that enable some SIMD optimizations, this are needed for a library that we will use later, and you don't need to worry about them now. If you are on an ARM machine like new apple computers and you get weird errors telling you that you can't use this flags just remove this lines.
+
+ Next we create the project.
+
+Now we do this sources thing that will add all the cpp files from the source folder. If you don't know what this is, it is explained in the previous tutorial. Next I add an executable for our project. Now I set the C++ standard 17 again just to be safe.
+
+
+Next, depending if this is a production build or not, we will have some things different. First I do that ASSETS_PATH macro thing, that will be an absolute path in the development build and just a relative path in the production build. And I also define a PRODUCTION_BUILD macro that will be 1 during a production build and 0 otherwise. This thing is basically a define accessible from the C++ code.
+
+Now we add the source files to our executable. 
+
+Now this next lines of code tell the compiler to not create the console if we are in a production build. Meaning that if we are in a development build we get a console and we can print stuff to it, but than when we ship the game to a user in a production build, it will have no console, just the game. And here is again the reason you don't really want to memorize CMake stuff, this is basically setting the right flag for each compiler. For this kind of stuff I just usually just ask ChatGPT, it usually gives better CMake answers than the CMake stuff you find online. And I know it might sound bad but at the end of the day you just want to make your game, who cares what is the correct configuration of flags to give to the compiler, sorry, I mean, all compilers individually to correctly not open the console? I don't really, and I don't find it interesting to search for this things either. Writing CMake is not like writing a C++ program. With C++ you just understand the language and you write your code. With CMake most of the time doing something means finding out the correct flag for the compiler to do that thing, but fortunately again ChatGPT can solve this problem for you. And also, fortunately what I showed here is more or less everything CMake related you will ever need to ship a fully working game on Steam. So even though some things may still seem weird and confusing, that's normal, C++ is an old language and you get things like this, but at least this is more or less all the CMake you need.
+
+Now finally, we just tell CMake to also include all the header files in the src folder, and that's it. Make sure the project compiles and in the next video I will also teach you how to save your project on git.
+
+
+
+
+
+

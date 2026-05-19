@@ -1,0 +1,11 @@
+build/
+out/
+bin/
+
+.vs/
+.idea/
+
+CMakeSettings.json
+
+settings/
+saves/

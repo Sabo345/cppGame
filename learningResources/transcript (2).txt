@@ -1,0 +1,153 @@
+
+
+
+
+
+ Ok now that you managed to run your first CMake project, you can start learning how it works. So we are again inside this project here, that you should hopefully have it up and running. All cmake projects start from this CMakeLists.txt file. This is like the main file, the entry point, and it has to be named like this, and it has to exist. so if you take a look at a random library on github, many of them will have this file meaning they support cmake.
+
+ Now the first line in any CMake project is the CMake version, and this doesn’t really matter for what we’ll be doing here because we won’t ever use advanced features, so just copy the version that I’m using.
+ 
+ Next we declare a project. And a project just holds the thing that you are trying to compile, in this case we have an executable, but you could also have a library. And a project can hold multiple executables, or you can just make one project for each executable, it doesn't really matter for you, in general I just make one project where I put all the executables, but, in this particular case, I just have 2 projects each with one executable and I made each executable to have the same name as it's parent project.
+
+
+ And as you probably have already guessed, here you just give the cpp files and also the header files that you want to be included in that executable. Before we move on to the next exercise why would you ever want to have 2 different executables? Well once your programs start to become big you might end up building tools for it that they share pieces of code. Like for example a game and the level builder for it, and you can simply select from this drop down which one you want to run, and also you can see here from what project your file currently is, this is very useful if you have duplicate files between projects. So now let's run this 2 projects, so you can select from this dropdown here what project to open and than don't click this button, press control + F5 like a pro to open and run the program. And than try to open the other one. Now if you want to add a release configuration, because we are in debug right now, you just go here, click this +, find x64 Release, and than control + S to save this and close it.
+
+
+
+
+ But enough rambling, your next task is to make a very simple CMake project from scratch, just like this one, but don’t worry I’ll give you the steps. So create a new folder, inside it create the CMakeLists.txt file, and also a main.cpp file. Next open the CMakeLists.txt file and add the basic CMake code to create a project and to use that main.cpp file. Now you can open it with visual studio and it should all work except that you also need to write a simple hello world program in main.cpp. Now you can run your program, and if everything works, let’s add some more files. go back and add a second cpp file and a header file. So to add them to your project you just have to also add them here, very easy. Now just write a basic function inside the header file and the cpp file and test it. You can also add files from Visual Studio directly, so make sure you press show all files here, and add a file, visual studio will ask you if you want that file added to CMake. This is a cool feature but we won’t actually use it in the final setup because I have something better.
+
+
+
+
+	Ok so now you should have already made your own simple cmake configuration from scratch, if so, before we move on, here are some small details about CMake. So you can actually omit the quotes symbols here and your project will still work, and this is kinda wierd I know but I just always use them. Also this is how you write comments. Finally, there are special CMake variables, or rather constants, like for example CMAKE_PROJECT_NAME that will be replaced with the name of the current project. And variables have a wierd syntax but again it is what it is. And you can again emit the quotes symbols, so this 2 cmake files are equivalent, and if you have many projects in one CMake I recomand being explicit and just type the name yourself.
+
+
+
+	Ok let’s move on, so in the repo that you downloaded, go inside the folder linking a library, and open it. Here you will see some new things, so first of all, this line is used to set the C++ standard. I use C++ 17 and you probably also want to do that so this is how you tell CMake that. And if you don’t know what that is you can search online later but don’t worry too much about it right now. So we again make a project, we set the C++ standard for this project, and than we add our executable and the Cpp file. So let’s talk about the other new things. target_include_directories will tell cmake to look inside this folder for include files. Ignore the public keyword here, just add it and don't think about it. All the header files inside the include folder will be automatically included. And notice that I’m using a CMake variable here so that I don’t have to use absolute paths. So if we look inside the project folder again, we have the cmake file, and in the same folder we have an include folder. Inside it we just add header files than you just need to click controll + s on the cmake file to refresh it and load the new header files. So we don’t need visual studio to add them manually for us anymore. The final 2 lines remaining have to do with linking libraries to your project. First you need to tell cmake where to look for other projects, and you do that using this line. So back to our project folder agian, I recomand you to make a folder called third party, where you put all your external libraries. So this is how it might look once you have many libraries. Back to the cmake, once you tell cmake where to look for other cmake projects to link to, this is how you tell cmake that you want to link a library to your executable. So this step will be done only once, because you only need to tell cmake to look for this libraries only once, but this step will be done for each executable that needs to be linked with other libraries. It makes sense, first you tell cmake that profiler lib exists and it is here in this folder, so CMake know about it, and than you tell cmake that you want to link profiler lib to this executable, so if you have multiple executables, maybe you want to link this library to some of them, and you don't want to link it to others.
+
+And having multiple libraries will look something like this. Now note that for some libraries, the name of the library might not be the same as the name of the folder, so here you are just telling CMake to look inside this folder, but the library inside could have a slightly different name than the folder it is in, so you can rely on intelisense to autocomplete it for you, or just ask ChatGPT for help.
+
+
+ Also if you are wandering how does this loading library works, let's look inside this path. If we go inside this folder, there is a CMake file. So basically, this line tells CMake to look inside this folder for other CMake files to add to the project.
+
+	And if we open it, it is very similar to what we have been doing so far. The only difference is that it is a library instead of an executable called profiler lib, so that's how CMake knows about the profiler lib library. Also, this library also comes with an executable as well, and it is a test executable. So because we told CMake to look inside this folder for other CMake files, it will also load this test executable, and you can run it to test the library. But if we go back to our executable, we can see that it compiles, and it correctly loads the library, and also the header file!
+
+
+
+	So your task now is again to remake this CMake project. And I will hold your hand a little as I did last time. First make a new empty folder. Here you want to create an src folder, where you put your cpp files, an include folder for the include files, and a third party folder for the libraries, and in here you will paste the profiler lib library that you will link to. To keep things very simple for now, just link to this library that I just showed. And now rewrite the CMake exactly like I did, but it's important you type it yourself, not just copy paste it.
+
+
+
+
+	So after you done this, you might be wandering, isn't there any way to automatically add all of this Cpp files to Cmake without having to manually type them? Well let's go to the third example. And after that, we'll look at 2 practical examples, 
+
+
+
+from a real project that I shipped on Steam, because there are some extra problems that can appear and it's very important you know how to fix them, and also how to best put your project on GitHub.
+
+  After this you will basically understand how my CMake setup works, and you will just be able to copy it and use it, or change it a little to make it your own and use it as a starting point. Because that's the goal eventually. You don't want to always do this CMake things, especially the wierd things that I'll soon talk about, you want to have a working cmake setup and reuse it for all your projects.
+
+
+
+	Now let's go into the third example. So in the same repo, enter inside moreCompleteExample, and let's open it. So the first new thing is this line, not it looks wierd but this is how you tell cmake to force your project to link the cpp runtime statically, and it won't work correctly if it isn't exact like this so I usually copy paste this lines, and I recomand you do the same. So what does it mean to link the cpp runtime statically? Unfortunatelly I have a lot to explain but it took me like 100 times more to get to this lines with multiple failed attempts and insane rage outbursts that go back all the way to my first C++ game 7 years ago! So consider yourself lucky that you will just have this problem solved in a few minutes.
+
+
+So all of this cpp functions that you use like cout and the memory allocator are provided by what is called the standard library. The standard library has the implementation for them and if you compile for Linux, there will be another standard library for Linux that will basically do the same thing but for Linux. Now you might wander why should you care about this detail. Well the idea with the runtime library was to be shared across programs so you save on some memory, you save on some RAM, and if a security bug appears you can just update only the runtime. 
+
+
+	Well this in practice doesn't work at all in windows, because windows will absolutely and totally fail to find the runtime library for you even if you have like 100 runtime librariy copies in your computer. Your program can compile and run on your local machine, but if you send it to someone else, it probably won't run on their PC. So if you don't plan to give your program to others than you can just ignore the runtime library things, but you probably want to eventually give your program to others. So to save other PCs from the stress of not being able to find the runtime library which will 100% happen, and also to make sure the runtime library on another pc is 100% compatible with your program, everyone just ships their program along with the runtime library. Steam can do this for you but if you don't use steam to send your game to others, you need to send your game with an installer for the runtime or something and probably also for your program as well. So this sounds just stupid, and it is, the idea of a shared runtime was to have it only once on that pc but it clearly doesn't work on Windows so people just ship their programs along with their runtimes, so that's why I just link it statically. That means my program comes with the runtime inside it, and I know 100% it will work correctly and it doesn't need an installer to run on other pcs. And I would do the same on Linux because like in today's world where you have like one terabyte of storage, saving on a few KB, or maybe like a few MB for a very big library, but taking the risk that that library isn't on the other pc or it is a different version that isn't compatible, just doesn't make sense fore me, I want to make sure my program is as bullet proof as possible and it's very hard to break it, that's also why I don't use Dlls when making my games because the program will be harder to break if it has all the things inside it and also it will be optimized better as well.
+
+
+
+ There is only one small advantage remaining to link dynamically on Windows and that is that if the runtime is ever updated for a security reason, you can just send that to people. But like comeon you probably didn't even know about runtimes don't tell me that you suddenly care so much about that for your game, you probably have like 10 buffer overflow exploits in your program anyway. And if that rare case indeed happens do you think I would just send the new runtime to people, like what if they changed something wierd and now it introduces wierd bugs, that can't happen theoretically only but in practice I'm not taking that risk, I'll just recompile my project and sent the new version to people to make sure it works. So don't tell me you want to making your shipment process more complex for no reason, just build statically. Now I wish I was done with this but there is one more detail. Most libraries compile the runtime not statically so that won't work. You need to tell them to link statically as well, and I'll tell you how to do that once we get there so don't worry, but for now, just know that you can forget about linking statically and all of this details, only if you don't plan on giving the project to others to test.
+
+
+	Ok we can finally move to the next lines, so you already know most of the things here, we tell cmake to add some third party libraries for us, we create a project and we set the C++ 17 standard. Now we get to this wierd thing. So this little line is probably my favoutire CMake trick and if you read the comment you probably understand what's happening. So adding the cpp files by hand is just like something wierd, and having the IDE add them automatically for you is just patching the problem instead of fixing it. So what if we could tell CMake to just add all the CPP files inside a folder. And that is what this line does! Now you don't have to memorize it or understand how it works you can just copy it every time. So starting from the src folder, it will place all of the cpp files, including cpp files in sub directories, into a variable called MY_SOURCES. Than when we add our executable we just use it. So whenever you add a new file and Visual Studio asks you if it should add it to the CMake, say no, because it is redundant. But make sure you enter inside the CMake after you add a file and press control + S to reload the CMake. And if the reloading ever doesn't work for some reason, you can always delete the out folder to do a clean build. Next we add our include folder, and link our libraries, so this leaves us with only this 2 lines here to explain.
+
+	So whenever you want to open a file, like in this example, if you use relative paths as you should use, you are probably used for this relative path to mean search for this file inside the folder where the root of the project is if you used Visual Studio. But Visual Studio does a little trick here to help you and it won't happen when using CMake. When you use CMake, whenever you open your program, no matter if you do that from you IDE or you open it directly, this relative path will mean look in the same folder where the program is. Now this is what you would expect to happen but it means you need to have a copy of the resources in the debug folder and also one in the release folder. And I'll cut on some technical details, but I've seen a ton of cases where in the end, you either can't debug your program from visual studio or you can't open your program from outside visual studio.
+
+
+	And I have seen a lot of didactic OpenGL engines from various universities around the world with this problem. So some people literally don't fix this issue, and you literally can't use the debugger, others fix this issue but in very weird way. And I of course have a better solution. So what I'm doing here is I'm defining a constant for the C++ project, so this constant will be a macro that you will use inside your C++ project. And it will be defined to point to this resources folder using an absolute path. 
+
+So this resources folder is inside the root folder of our project, and inside it we have a txt file. We can open the txt file as so, using the RESOURCES_PATH macro and it will work correctly. So no matter where your exe file is, it will work.
+
+ So you put all your resources in this resources file and whenever you read or write a file you use this macro. And pro tip if you make a game, I recommend saving the player's data in a different folder, like so. Now this macro is defined to use the absolute path. So you use absolute paths during development, but you can't use that when you want to send your project to someone else. So when you are ready to send your project to someone else, you manually change it from CMake to just use relative paths.
+
+	So let's recap, you write your program and every time you want to read write to or from a file, you do it in this resources folder, and in the code, you use this resources path. Than if you want to send your program to someone else, you comment this line with the absolute path, and uncomment the other one, with the relative path, and recreate your cmake and recompile your program. And all my CMake setups have this things, I know it sounds wierd but trust me, if you try to not use it, it will soon cause you problems.
+
+
+Ok now we can finally move to the practical things, but I recommend to also take this last example and recreate it yourself as you did with the other examples, for this long weird lines of CMake you can just copy paste them, and make sure you manage to properly configure this assets path macro correctly and manage to read from a file.
+
+
+So now, let's continue with something very simple, project structure and Git. So you already saw that I have a src and include folders, and you can also have subfolders inside them and everything will work using the methods that I showed you, and if you use sub folders for header files, you also need to specify that when including them but I think that's something good, it makes things more organized. And the gitignore is very simple, so this things are from IDEs, than everything built by your project will be placed here, and just in case someone has the build system a little different we have this extras. And this is another advantage of using CMake, instead of just visual studio, because a normal Visual Studio project places the build files all overt the place in the least consistent way possible, no wonder your git ignore looks like this in that case, why would anyone want that when you can have all the build things in one place.
+
+And for external libraries I just add them directly to the repo and push them on GitHub and that's it. And if I have 10 projects that use the same libraries, I will just copy them 10 times. And yes I'm basically compiling all the libraries with my project, so that means I'm not using lib and DLL files or stuff like that.
+
+	Now many people will disagree with this or they would say I need to use git submodules, and for some reason I find it very hard to convince beginners to do things my way, probably because most examples online use submodules or install their libraries globally, and in reality they just do that because that's what they saw. But if you pause for a second, and think a little about the arguments that I'm going to give you, you will see that it's way more convenient to do things this way. So you can read this if you want, and I would say at least try things my way once if you aren't convinced and you will see that it is very convenient.
+
+
+
+	Ok we now move to a real complete example, so learning material number 2 that you can find in the description, is my goto gamedev CMake setup, I recommend taking a look later on your own at how I did it and just use it like it is or make one of your own from scratch in a similar manner. So one thing I haven't really talked about is linking to libraries and yes I showed you how to do it but in practice you will have weird problems that there is unfortunately no easy fix than gaining some experience. There might be some very little details that it's impossible to know without being literally an expert at that library that you just downloaded and that you can't find anywhere. That's why I recommend you to start with my setups that already work and than maybe try to do that on your own, but the easiest way I found to link a library to CMake is to ask ChatGPT to do it for you. Like I do right now, make sure you give it all the details or maybe your whole CMake script. And mention that you want to link the library statically.
+
+
+ And I know some people will disagree but here is my point. If you want to become a CMake expert, that's cool and you have a lot of things to learn, but 99% of people just want to write their C++ code without having to deal with the build system. And people joke every time about beginner developers who don't read the documentation but the truth is that 99% of documentations are horrible or non existent or extremely superficial. And CMake documentation in particular is especially horrible. And whenever you want to do something specific with CMake, you won't find and answer online. So instead of searching the web for one entire day you can just ask chat GPT for help and for my experience it works very well. Don't say ChatGPT gives you bad information because I used it to link my libraries to CMake and it worked, and it also helped me find some problems that there is no way you find in the documentation, like for this thing it took me literally years to figure out the right command with multiple tried that just failed silently, so when I say that for some things you just need to copy and paste my code or ask ChatGPT trust me it's not something you will easily find yourself.
+
+And if you are linking your C++ runtime statically, make sure you specify that to ChatGPT and say that you would want that library to be linked statically to the runtime as well. 
+
+Ok so let's look through this CMake and see what we have. So first of all, you can see that I have the same project structure that you just learned about, so I'm not teaching you something I don't use, in fact this is how all my setups look, and I used this exact CMake setup for my Steam Game.
+
+
+
+So we start with the version and also set the C++ 17 standard for the current project. Next I add this variable thing here, and it basically specifies if I want to make a production build or not. And you will soon see how I use that but basically a development build means that I may want to include various extra checks and debug tools in the code for me to use as a developer, while a production build, is a finished build ready to be shipped to people so I may want to remove the console and other debugging tools.
+
+
+So for example I enable whole program optimization only for the production build, it is a very nice optimization but it takes some extra time so I want to compile a little faster while I'm working on the project.
+
+Than I add an extra optimization flag here that you can ignore.
+
+Now we create the project and we link libraries. And here I do some specific things for the GLFW library and also for libraries in general to not be built as shared libraries. This I why ChatGPT is so useful, if you search link GLFW with cmake online you won't easily find this, and by the way whenever you find things with find package and install package, that has to do with installing libraries globally and I really don't recommend toing that for this reasons, I just always put all the libraries that I need in the project.
+
+So moving on, we add the folders with all the libraries, than we add all of our Cpp files into this variable and create our executable. Next I need to add this line to add a compile definition for GLFW to work, again good luck finding that online. Next I do the thing with the RESOURCES_PATH, but I switch it automatically depending on if I have a production build or not, and I also set a macro for the C++ program, so I can also know inside my C++ program if I am inside a production build or not, to for example in my case, I don't open the console if I'm making a production build.
+
+Next if I'm building with MSVC for windows I use this line to tell the compiler to not create any console for me, I want to do that myself only if I'm inside a development build. And if you used Visual Studio before, you might have seen this before, it's just to stop Visual Studio throw annoying useless warnings at you as errors.
+
+Finally, I set some include directories and I link to my libraries.
+
+So you can see that with only a few simple CMake lines you have your entire setup that is up and ready to ship a game on Steam. So I have no idea how people manage to have bigger more complex CMake scripts that don't even solve the problems that I solve. But I have 2 more things to show you and than if you want to learn OpenGL or start a C++ project, I have many many plug and play CMake setups for basically any need that you can think of so I will link 2 youtube videos if you are interested in just starting coding as soon as possible and dealing with CMake later.
+
+
+
+But now let's look at the last things. And those are how to add CMake to libraries that don't have CMake and also the last learning example. So the third learning material is another older engine of mine that I made with some other people from my discord. So if we open cmakeLists.txt we don't see much, and that's because I designed it so that multiple modules can be easily added by people like you can see here. So I load the libraries and than I load the modules, and that's it. If we look inside a module it initially looked something like this, but than I moved the common functionality into a separate common file. So this makes it even easier to make a new module but there is one thing to point out here, don't split things into hundreds of files just because. Again, 100 lines of CMake is all you need for a simple setup that is easy to read and understand, so keep your things simple.
+
+And the last thing is how to make libraries with CMake and how to add CMake to libraries that don't have cmake and it is something very simple but equally important because some libraries might not have CMake.
+
+So if your library has only header files and no C++ files, it will look something like this. So very simple, and you can find this CMake in the first linked learning material, so you can copy paste this lines. Notice the interface keyword here, this means that this library only has header files. Now I also wanted to add a test for this library so to do that I just need to add an executable to it as well and that's it. If we look at the project structure I have the include and src folders as expected.
+
+Now for the next example, go back to the second learning material link, so that means this repo with my cmake setup, and let's look inside GLAD. So we have again include and src, and I just placed the right files inside. So if you do this for a library that doesn't come with a CMake like GLAD or imgui, you simply need to add all the CPP files and header files to the CMake. 
+	Notice that I have a second folder inside include that has the same name as my library. To keep things organized, you want all your library includes to look like this, and to achieve this you add an extra folder. While this way of configuring header files for library is I would say standard, some people don't do it. So you might make your setup to include the files like this, but they wrote their code inside the library to work like this and now you are getting compile errors. So in this case either just set it up like they wrote them, without the extra folder, or if the library is small fix the include errors one by one directly in the library's code.
+
+So looking inside the CMake for GLAD, it's actually extremely simple and straight forward. We just add a library we add the cpp files and the header files. Notice the public and private things here. Don't worry about them, just add them like that, and again copy paste this code to make your own setups and not bother.
+
+If you look inside the gl2d library however, one interesting thing to note is that I'm linking to other libraries, even though I don't have any line to tell cmake where to find them. Well that's because you only need to tell cmake to search for libraries in the main cmakelists.txt, so this is nice. But for most libraries you won't need dependences.
+
+
+Finally let's look inside stb image. Now stb image is interesting because it is a header only library. Header only libraries come with one header file and you usually have to do a special define, in exactly one CPP file before you include the header file, to also generate the CPP file for it in that existing CPP file. The simplest way to setup something like that with CMake and without having any problems is to just treat it like a normal library with a cpp file and a header file. And the cpp file looks like this. So again a header only library needs to add a special define in one single cpp file, and so this is that cpp file. Now if you are wandering how do I know about this special define, well you should find it in the documentation or in this case in the header file itself but you can just ask chatGPT. And so after we made our cpp file, the CMake looks again very simple.
+
+
+
+Now I recomand you to try configuring some CMake yourself and also if you just want to use my premade cmake setups to write games or learn opengl I have this 2 videos for you.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

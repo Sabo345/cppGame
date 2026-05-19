@@ -1,0 +1,81 @@
+
+	If you already know how to use GIT don't skip this video, but go to this timestamp instead, I have something important to tell you.
+
+	So if you haven't used git before it's time you do, so I'm going to make a very brief introduction for you. GIT is a little program, that helps you make backups for your programming projects. In reality it does way more than that, It also allows multiple people to work on the same project at the same time and much more but we won't get into that. Now not only you can have all your projects stored in cloud using Git, you can easily save them at multiple points. Think of it as how you can select the Minecraft version you want to play. Using git, you can return your code to a previous version. And this can be extremely useful as I'll demonstrate later. And everyone uses Git so if you haven't used it, it's time to start using it and place this project there as your first project.
+
+
+	Now working with git isn't that hard but there are some new concepts that you need to learn so please grab a piece of paper to write them down otherwise it will get confusing. First of all, Git is a little computer program, that you install on your pc, and you can use it to backup your project. GitHub however, is something different. GitHub is a website, where you can store your projects, using the Git technology. So you don't need a GitHub account to use git, you can even host your own local git server on your computer, but most people use GitHub so that's what we will be using. So you should go ahead and download git and install it, and also go ahead and make a GitHub account, preferably using your real name. You will use GitHub in your career later so you may want to use your real name here. But it's not mandatory.
+
+	If it sounds confusing so far don't worry the next concept will start to tie everything together. So git is installed on your computer, and GitHub, is a website, where you can store your projects.
+
+ Now a repository is basically the thing where you store your project. Think of it like a folder where you put your project. So this is how things usually go. Let's say you just started a new project, that project lives on your computer. The first thing you will do, is you would go on GitHub, and create a new repository for it. Than, on your computer you would open Git, and tell it to save your project, on that new repository. Now the project exists both on your pc, but also inside a repository on your GitHub account. 
+
+	Now I also told you that you can save your project at multiple states. This states are called commits. So let me give you an example. Here is my game, and I just implemented collisions. I can create a commit called implemented collisions to save my progress. Than I write some more code to implement an entity. I make a new commit called implemented entities to save my progress again. Every time I make a commit, the new state of the project is saved on GitHub. But the cool thing about commits, is that you can return to an older commit. So right now I implemented the enemy, but I can easily return to the commit where I implemented the collisions. And before I show you how all of this works, let me show you how is this useful. One time I was working on my game, when I spotted a very strange bug in the rendering system. It was clearly a new bug. The problem tho, was that I wasn't working at rendering at that time. So I had no idea when or where did I introduce that bug from. The solution is to simply use Git to go back some commits in time, until you find the exact commit where that bug appears. Than you can take a look at exactly what you modified in that commit. Isn't that cool?
+
+
+Now, let's see how to use git. I will give you the link to downloading Git, and also to make a GitHub account. Make sure you check run git from the Windows Command prompt when you install git.
+
+	Now let's check that you installed git correctly. Let's go inside the folder where you have this project. We need to open the console inside this folder, a quick easy way to do this is to come here and write CMD and press enter. Now if you just write git and press enter, you should get some help message like this. If you don't get it, that means you didn't install git correctly, so reinstall it and make sure you check run git from the Windows Command prompt.
+
+Now if git worked let's create a repository. There are a few commands you need to learn so you can write them down on a piece of paper.
+
+First to create the reposiroty, type git init, and press enter. You should see this message. Going back to the folder, go to view and make sure show hidden items and show file name extensions are checked. Now you should be able to see this .git folder. So you have just created your first repository. Next we need to create this .gitignore file. It basically tells git what files to not include to the repository. Here you would usually put the build related stuff. This is what you should write inside it, I'll explain it a little later. Now back to the command prompt. You can type git add .  Than you can type git commit -m"first commit"
+
+So git add .  will basically add everything to the next commit, except what's inside gitignore of chourse. And than by typing git commit you create a commit and you have to give it a name like this.
+
+Now we have created the repository, and even made our first commit, remember, a project will have multiple commits. Every time you add some more stuff to the project, you make a commit to save that new stuff. But now, we need to upload this repository to GitHub. So, let's go to the GitHub website, make sure you created an account, and go here, new repository. Give it a name, and now make sure you create it without making a readme file. Because if you create an empty repository, GitHub will help with some instructions. Now this commands will make a new repository and a commit as you can see here but we already have made the first commit, so we will just take this last commands, after the commit stuff, copy and paste them into CMD, enter. Now after you run them, if we go back to GitHub, and refresh the page, you can see that the repository was updated with the latest commit. Now go change something inside the code and let's make a second commit. Make sure you save the file that you changed, and than go inside CMD. Type git add . and than git commit -m"commit test"    Finally we have to type git push to actually upload the new commit to GitHub. And that's it. Every time you make a new commit you need to type this 3 lines.
+
+We are almost done. Let's go inside GitHub and add a readme. This readme file is like a description of the project, and you can get very creative to what you add there. For now just write something like my first big C++ game. And commit. So you can see that you just made a commit from GitHub. But now check this thing out. If I return to my project, and change a file, and try to make a new commit, I get this error. This is called a conflict. Basically, the project was updated on GitHub, so the version you have on your pc is one commit behind. Fortunately, it's not a big deal in this case. You just have to type git pull, and this will download the updates made on git, without discarding your changes. Now you can type git push again and everything will work. 
+
+Now getting back in time is pretty easy. Inside GitHub you can go to commits, and you can easily see here every commit. And you can do some useful things. You can click here to see how the repository looked during that commit, but also, you can click this button to see only the changes. Now you probably want to have access to this commit from your IDE, not from this web interface, so that you can compile and test it. Go back to the folder where you have the repo. To go back to an older commit first you need to not have any changes since the last commit, so you can either make a new commit, or discard all the changes by typing git reset --hard. Be careful tho, this command will discard everything you changed and get you back to your last commit so make sure you don't have anything important you don't want to lose. Than to go back to a commit, go here, and after you chose the commit that you want to return to, click this to copy the commit ID. Finally, you can type here git checkout and paste the commit ID. Congratulations, you went back in time to an older commit. Now you can change your code but you will eventually want to return to the latest version. So to do this, first you may need to discard the changes. To do that type git reset --hard. Than type git checkout main where main is the name of your main branch. I haven't talked about branches, but it should be either main or master, so either git checkout main or git checkout master should work to get you back to the latest commit. 
+
+Now this should be enough to get you started with git. I will say that you will get from time to time weird problems, when that happens just ask ChatGPT for help, from my experience it never let me down. Let's say you want to set an older commit as the latest commit, essentially revert some changes, just ask ChatGPT giving him all the details and he will basically give you the exact commands you need to type.
+
+Now there are 2 mistakes that even if you already know git, I see all beginners make. The first one, has to do with gitignore. Many people when they make their gitignore file, they usually go on a website like this and type their technologies and get this massive file. This is horrible. You basically tell git to ignore all the files with this extensions but now tell me what are the chances you didn't miss something or worse there are some files with this extensions that you want to add but accidentally won't be added because they are mentioned here. 
+
+	The reason people use tools like this, and the real root of the problem is that the IDE is badly configured and places build files all over the place but if you configure things with CMake like I do that won't be the case. With my configuration, CMake will place everything build related here in this folder, and that's it! It can't get easier than that. So let's take a look inside gitignore. First I have this out folder that I don't want to include, and I also have some alternative names because other IDEs might use bin or build instead of out. Now this thing has Visual Studio settings and this thing has Jet Brains Ide settings so we don't want that either. This are some CMake settings that we don't have to add, and this is used for Linux building.
+
+Finally, this 2 folders will have some user related stuff like once the game is available to play, so we don't have to push them to GitHub. One thing to note is that I always place all the external dependences to GitHub directly, and I actually have some very good reasons to do this that you can read now if you want, but please trust me, you want to also do this, it's the best way to do it for game development.
+
+Now the second mistake, has to do with making repositories private. I see so many people making their projects private or storing them on a local database so they remain private. Let me tell you a story. This is the game that I have been working at for like 5 years. I want to eventually publish it on Steam as a game so you might expect me to make this repository private but I didn't. You want to know what happened? Not only no one stole my project, but I got a ton of people interested in it some of them even fixing small bugs. And the best part is that one time, someone saw this project randomly on GitHub, and because he was impressed by it, he asked me to help him on his project. And all I can say is that I got paid very well and his project was very cool. And I got this opportunity only because I made my repository public. Many people are afraid to make their repositories public because they think others will steal their work but the truth is that nobody even knows your repository exist. Like I have almost 100 thousand subscribers on YouTube and people still barely care about my project. I know you think you have invented some cool new thing and you don't want others to steal it, but at the moment, probably nobody even cares about it. 
+
+	So especially if you have a cool project, you want people to know about it, you want other smart people to find it and collaborate with you. When you will go get your first programming job, you want to have a lot of cool big projects to show on GitHub. Your projects on GitHub are how people know how good of a programmer you are. So place every interesting project you have on GitHub. Non negotiable, I don't care if the code is bad, nobody even cares, no one will ever read it. If you made a project that is nice place it on GitHub and make the readme very cool. Non negotiable, I don't want to hear any excuse. You can also place your top projects on your profile page. Here is a quick trick to make the readme cooler, the readme allows you do add titles checkboxes and photos.
+
+ Add something like this to show what features you added and what features you want to add, it doesn't matter you may never implement them. Finally make screenshots of your project and place them there. No one will read the readme but they will see the photos. Make sure you save them as a jpg because they take less time to load and than you can just drag them into the readme. So I want you to have a nice repository with this project on your GitHub, with photos so people can immediately see that you have the skill to make a cool game in C++. Now let's move on to the next lesson.
+
+Challenge Make a cool Github page for your game
+It's EXTREMELY important you make a GitHub page for your game. Without it, people won't even know your project exists. And people like to say that they do projects for themselves, but why not share that with other people? You will want to eventually maybe get a job in programming, and having good projects on GitHub will help. And even if you don't want to work in a programming career, why not share your projects with others?
+
+Also, something super common I hear is that people don't want to share their projects because they don't like how they wrote the code or other small aspects like that. I'm going to tell you a secret: all projects suck, but more importantly, no one will know or even care if your project has ugly code; they just want to see the result. And even if the result seems simple to you now, remember that maybe one year ago, that same result would have probably impressed you.
+
+So here is an example of a GitHub project: https://github.com/meemknight/ourCraft
+
+
+
+The number one most important thing is to make screenshots for your project and place them in the readme. 99% of people won't compile your project, and 99% of people won't even read your readme; however, 100% of them will see the photos. So once you add some stuff to the game, use the shortcut window + shift + s to make a screenshot, and save it as a jpg so it loads faster. Then, click the edit readme on GitHub, and you can drag and drop your photos there. You can also record a video using windows + alt + r and than use this https://ezgif.com/ to convert it into a GIF. Make sure you make the GIF small, so it doesn't take too long to load. You can also make lists of features that you implemented, or you will implement, like so:
+
+
+
+- [x] world generator
+
+- [x] player
+
+  - [ ]  collisions
+
+- [ ] enemies
+
+
+
+And there are more things you can add, like formatting the text nicely with paragraphs and titles by writing
+
+# title example
+
+## small title example
+
+So go experiment!
+
+
+
+
+
+
