@@ -10,7 +10,7 @@ int main(){
 
 }*/
 
-#include "raylib.h"
+/*#include "raylib.h"
 
 int main(){
     InitWindow(800, 600, "cppGame");
@@ -28,6 +28,39 @@ int main(){
 
         EndDrawing();
     }
+
+    CloseWindow();
+
+    return 0;
+}*/
+
+#include <raylib.h>
+
+#include <imgui.h>
+#include <rlImGui.h>
+
+int main()
+{
+    InitWindow(800,600,"ImGui Test");
+
+    rlImGuiSetup(true);
+
+    while(!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+
+        rlImGuiBegin();
+
+        ImGui::ShowDemoWindow();
+
+        rlImGuiEnd();
+
+        EndDrawing();
+    }
+
+    rlImGuiShutdown();
 
     CloseWindow();
 
