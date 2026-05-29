@@ -168,6 +168,7 @@ int main(void)
 
     if (!initGame())
     {
+        //permaAssert(1 == 2);
         return 0;
     }
 
