@@ -289,11 +289,11 @@ bool updateGame()
             if (b.type != Block::air)
             {
 
-                Rectangle textureUV;
+                /*Rectangle textureUV;
                 textureUV.width = 32;
                 textureUV.height = 32;
                 textureUV.x = b.type * 32;
-                textureUV.y = 0;
+                textureUV.y = 0;*/
 
                 DrawTexturePro(
                     assetManager.textures,
