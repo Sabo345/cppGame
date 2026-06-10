@@ -226,6 +226,7 @@ void closeGame()
 #include <assetManager.h>
 #include <gameMap.h>
 #include <helpers.h>
+#include <cmath>
 
 struct GameData
 {
@@ -254,7 +255,65 @@ bool initGame()
     gameData.camera.rotation = 0.0f;
     gameData.camera.zoom = 50.0f;
 
+    /*for (int y = 0; y < gameData.gameMap.h; y++)
+        for (int x = 0; x < gameData.gameMap.w; x++)
+        {
+            if (x % 4 == 0 && y % 4 == 0)
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::dirt;
+            }
+            else if (x % 4 == 0)
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::goldBlock;
+            }
+            else if (y % 4 == 0)
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::rubyBlock;
+            }
+            else
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::woodPlank;
+            }
+        }*/
+
+    /*for (int y = 0; y < gameData.gameMap.h; y++)
+        for (int x = 0; x < gameData.gameMap.w; x++)
+        {
+
+            float s = (std::sin(x) + 1.f) / 2.f;
+
+            if (gameData.gameMap.h - (gameData.gameMap.h * 0.3 * s) - gameData.gameMap.h * 0.5 < y)
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::dirt;
+            }
+            else
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::air;
+            }
+        }*/
+
+    for (int y = 0; y < gameData.gameMap.h; y++)
+        for (int x = 0; x < gameData.gameMap.w; x++)
+        {
+
+            float s = (std::sin(x) + 1.f) / 2.f;
+            float s2 = (std::sin(x * 0.5) + 1.f) / 2.f;
+
+            if (gameData.gameMap.h - (gameData.gameMap.h * 0.3 * s) - gameData.gameMap.h * 0.5 -
+                (gameData.gameMap.h * 0.2 * s2)
+
+                < y)
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::dirt;
+            }
+            else
+            {
+                gameData.gameMap.getBlocUnsafe(x, y).type = Block::air;
+            }
+        }
+
     return true;
+
 }
 
 bool updateGame()
